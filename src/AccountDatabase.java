@@ -272,9 +272,11 @@ public class AccountDatabase {
      * accounts.
      * 
      */
-    public void printByDateOpen() {
+    public String printByDateOpen() {
 
         sortByDateOpen();
+
+        String output = "" ;
 
         for (int i = 0; i < accounts.length; i++) {
             if (accounts[i] == null) {
@@ -283,15 +285,17 @@ public class AccountDatabase {
 
             }
 
-            System.out.println(accounts[i].toString());
+            output = output.concat(accounts[i].toString() + "\n");
             double interest = accounts[i].monthlyInterest();
-            System.out.println("-interest: $ " + String.format("%,.2f", interest));
+            output = output.concat("-interest: $ " + String.format("%,.2f", interest) + "\n");
             double fee = accounts[i].monthlyFee();
-            System.out.println("-fee: $ " + String.format("%,.2f", fee));
+            output = output.concat("-fee: $ " + String.format("%,.2f", fee) + "\n");
             accounts[i].setBalance(accounts[i].getBalance() + interest - fee);
-            System.out.println("-new balance: $ " + String.format("%,.2f", accounts[i].getBalance()));
+            output = output.concat("-new balance: $ " + String.format("%,.2f", accounts[i].getBalance()) + "\n");
 
         }
+
+        return output ;
 
     }
 
@@ -301,24 +305,28 @@ public class AccountDatabase {
      * holders.
      * 
      */
-    public void printByLastName() {
+    public String printByLastName() {
 
         sortByLastName();
 
+        String output = "";
+        
         for (int i = 0; i < accounts.length; i++) {
             if (accounts[i] == null) {
 
                 continue;
 
             }
-            System.out.println(accounts[i].toString());
+            output = output.concat(accounts[i].toString() + "\n");
             double interest = accounts[i].monthlyInterest();
-            System.out.println("-interest: $ " + String.format("%,.2f", interest));
+            output = output.concat(("-interest: $ " + String.format("%,.2f", interest)) + "\n") ;
             double fee = accounts[i].monthlyFee();
-            System.out.println("-fee: $ " + String.format("%,.2f", fee));
+            output = output.concat("-fee: $ " + String.format("%,.2f", fee) + "\n");
             accounts[i].setBalance(accounts[i].getBalance() + interest - fee);
-            System.out.println("-new balance: $ " + String.format("%,.2f", accounts[i].getBalance()));
+            output = output.concat("-new balance: $ " + String.format("%,.2f", accounts[i].getBalance()) + "\n");
         }
+
+        return output ;
 
     }
 
@@ -327,14 +335,18 @@ public class AccountDatabase {
      * Method to print the account using our toString method.
      * 
      */
-    public void printAccounts() {
+    public String printAccounts() {
+
+        String output = "" ;
 
         for (int i = 0; i < size; i++) {
             if (accounts[i] == null) {
                 continue;
             }
-            System.out.println(accounts[i].toString());
+            output = output.concat(accounts[i].toString() + "\n");
         }
+
+        return output ;
 
     }
 
