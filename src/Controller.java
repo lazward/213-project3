@@ -1,8 +1,13 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea ;
 import javafx.scene.control.TextField ;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.FileChooser;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 
@@ -242,8 +247,88 @@ public class Controller {
 
     }
     
+    @FXML
+    public void importFile(ActionEvent event) {
 
- 
+        event.consume() ;
+        FileChooser fileChooser = new FileChooser() ;
+        fileChooser.setTitle("Open account database") ;
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text documents (*.txt)", "*.txt")) ;
+        File file = fileChooser.showOpenDialog(ocOutput.getScene().getWindow()) ;
+
+        try  {
+
+            Scanner scanner = new Scanner(file) ;
+
+            while (scanner.hasNextLine()) {
+
+                String line = scanner.nextLine() ;
+                String[] split = line.split(",") ;
+
+                Profile profile = new Profile() ;
+                profile.setFirstName(split[1]) ;
+                profile.setLastName(split[2]) ;
+
+                String[] d = split[4].split("/") ;
+                Date date = new Date() ;
+                date.setDate(d);
+
+                if (split[0].equals("C")) { // Checking
+
+                    Checking checking = new Checking() ;
+                    checking.setHolder(profile) ;
+                    checking.setBalance(Double.parseDouble(split[3]));
+                    checking.setOpenDate(date);
+                    checking.setDirectDeposit(Boolean.valueOf(split[5]));
+                    database.add(checking) ;
+
+                } else if (split[0].equals("S")) { // Savings
+
+                    Savings savings = new Savings() ;
+                    savings.setHolder(profile) ;
+                    savings.setBalance(Double.parseDouble(split[3])) ;
+                    savings.setOpenDate(date) ;
+                    savings.setLoyal(Boolean.valueOf(split[5])) ;
+                    database.add(savings) ;
+
+                } else if (split[0].equals("M")) { // Money Market
+
+                    MoneyMarket moneyMarket = new MoneyMarket() ;
+                    moneyMarket.setHolder(profile) ;
+                    moneyMarket.setBalance(Double.parseDouble(split[3])) ;
+                    moneyMarket.setOpenDate(date) ;
+                    moneyMarket.setWithdrawals(Integer.valueOf(split[5])) ;
+                    database.add(moneyMarket) ;
+
+                } else { // error?
+
+
+                }
+
+            }
+
+            scanner.close() ;
+
+        } catch (FileNotFoundException e) {
+
+
+        }
+
+    }
+
+    @FXML
+    public void exportFile(ActionEvent event) {
+
+        event.consume() ;
+        FileChooser fileChooser = new FileChooser() ;
+        fileChooser.setTitle("Save account database") ;
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text documents (*.txt)", "*.txt")) ;
+        File file = fileChooser.showSaveDialog(ocOutput.getScene().getWindow()) ;
+
+        Account[] accounts = database.getAccounts() ;
+
+
+    }
 
     private void openAccount(String fname, String lname, double bal, Date date, String type, boolean condition) {
 
