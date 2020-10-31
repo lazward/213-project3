@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 import javafx.event.ActionEvent;
@@ -326,6 +327,48 @@ public class Controller {
         File file = fileChooser.showSaveDialog(ocOutput.getScene().getWindow()) ;
 
         Account[] accounts = database.getAccounts() ;
+
+        try {
+
+            FileWriter writer = new FileWriter(file) ;
+
+            for (int i = 0; i < accounts.length ; i++) {
+    
+                if (accounts[i] == null) {
+    
+                    continue;
+    
+                }
+    
+                String output = "," + accounts[i].getHolder().getFirstName() + "," + accounts[i].getHolder().getLastName() + "," + accounts[i].getBalance() + "," + accounts[i].getOpenDate().toString() + "," ;
+
+                if (accounts[i] instanceof Checking) {
+
+                    Checking checking = (Checking)accounts[i] ;
+                    output = "C" + output + checking.getDirectDeposit() + "\n" ;
+
+                } else if (accounts[i] instanceof Savings) {
+
+                    Savings savings = (Savings)accounts[i] ;
+                    output = "S" + output + savings.getLoyal() + "\n" ;
+
+
+                } else { // MoneyMarket
+
+                    MoneyMarket moneyMarket = (MoneyMarket)accounts[i] ;
+                    output = "M" + output + moneyMarket.getWithdrawals() +"\n" ;
+
+                }
+
+                writer.write(output) ;
+    
+            }
+
+            writer.close() ;
+
+        } catch (Exception e) {
+
+        }
 
 
     }
