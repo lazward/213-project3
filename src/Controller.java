@@ -34,9 +34,16 @@ public class Controller {
         event.consume() ;
 
         RadioButton cmd = (RadioButton)OpenClose.getSelectedToggle() ;
-        //ocOutput.appendText(cmd.getText() + "\n") ;
 
         RadioButton type = (RadioButton)ocAccountType.getSelectedToggle() ;
+
+        if (type == null ) {
+
+            ocOutput.appendText("Please select an account type!\n") ;
+            return ;
+
+        }
+
         //ocOutput.appendText(type.getText() + "\n") ;
 
         if (firstName.getText().isEmpty()) {
@@ -126,6 +133,13 @@ public class Controller {
         
         RadioButton type = (RadioButton)dwAccountType.getSelectedToggle() ;
 
+        if (type == null ) {
+
+            dwOutput.appendText("Please select an account type!\n") ;
+            return ;
+
+        }
+
         if (firstName1.getText().isEmpty()) {
 
             dwOutput.appendText("Please enter a first name!\n") ;
@@ -154,15 +168,10 @@ public class Controller {
         if(cmd.getText().equals("Deposit")){
             deposit(firstName1.getText(), lastName1.getText(), Double.valueOf(amount1.getText()), type.getText());
 
-        }else if(cmd.getText().equals("Withdraw")){
+        } else {
             withdraw(firstName1.getText(), lastName1.getText(), Double.valueOf(amount1.getText()), type.getText());
-        }else{
-            dwOutput.appendText("No command selected!");
-            return ;
         }
         
-
-
     }
 
 
@@ -173,6 +182,13 @@ public class Controller {
 
         RadioButton cmd = (RadioButton)adCommand.getSelectedToggle() ;
 
+        if (cmd == null) {
+
+            adOutput.appendText("No Command Selected!\n");
+            return;
+
+        }
+
         if(cmd.getText().equals("Print All Accounts")){
             
             adOutput.appendText(database.printAccounts());
@@ -181,13 +197,10 @@ public class Controller {
 
             adOutput.appendText(database.printByDateOpen());
 
-        }else if(cmd.getText().equals("Print All Accounts + fees + sorted by last names")){
+        }else { // if(cmd.getText().equals("Print All Accounts + fees + sorted by last names")){
         
             adOutput.appendText(database.printByLastName()) ;
 
-        }else{
-            adOutput.appendText("No Command Selected!\n");
-            return;
         }
 
         adOutput.appendText("-------------------------------------\n") ;
@@ -367,6 +380,8 @@ public class Controller {
             writer.close() ;
 
         } catch (Exception e) {
+
+
 
         }
 

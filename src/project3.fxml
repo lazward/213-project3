@@ -69,7 +69,7 @@
                <children>
                   <HBox layoutX="21.0" layoutY="42.0" prefHeight="22.0" prefWidth="200.0">
                      <children>
-                        <RadioButton mnemonicParsing="false" prefHeight="18.0" prefWidth="81.0" text="Deposit">
+                        <RadioButton mnemonicParsing="false" prefHeight="18.0" prefWidth="81.0" selected="true" text="Deposit">
                            <toggleGroup>
                               <ToggleGroup fx:id="DepositWithdraw" />
                            </toggleGroup>
